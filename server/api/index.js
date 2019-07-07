@@ -1,5 +1,5 @@
 'use strict'
-
+const Candy = require('../db/models/Candy')
 const router = require('express').Router()
 
 // Your routes go here!
@@ -18,6 +18,16 @@ const router = require('express').Router()
 // but you DON'T have a corresponding router, this piece of
 // middleware will generate a 404, and send it to your
 // error-handling endware!
+
+router.get('/candies', async function (req, res, next) {
+  try {
+    const candies = await Candy.findAll()
+    res.json(candies)
+  } catch (error){
+    next(error)
+  }
+})
+
 router.use((req, res, next) => {
   const err = new Error('API route not found!')
   err.status = 404
